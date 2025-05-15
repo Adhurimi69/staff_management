@@ -1,19 +1,17 @@
 // config/db.js
-const mysql = require('mysql2');
+const { Sequelize } = require('sequelize');
 
-const connection = mysql.createConnection({
-  host: 'localhost',       // or '127.0.0.1'
-  user: 'root',            // default phpMyAdmin username
-  password: '',            // your MySQL root password, often empty on local setups
-  database: 'staff_db'
+const sequelize = new Sequelize('staff_db', 'root', '', {
+  host: 'localhost',
+  dialect: 'mysql',
 });
 
-connection.connect((err) => {
-  if (err) {
-    console.error('❌ Error connecting to the database:', err.message);
-  } else {
-    console.log('✅ Connected to the MySQL database.');
-  }
-});
+sequelize.authenticate()
+  .then(() => {
+    console.log('✅ Connected to the MySQL database using Sequelize.');
+  })
+  .catch((err) => {
+    console.error('❌ Unable to connect to the database:', err.message);
+  });
 
-module.exports = connection;
+module.exports = sequelize;

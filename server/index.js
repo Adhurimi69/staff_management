@@ -1,28 +1,22 @@
-// index.js
 const express = require("express");
 const cors = require("cors");
-const sequelize = require("./config/database");
-
-const MentorModel = require("./models/Mentoret");
-const mentorRoutes = require("./routes/mentorRoutes");
+const sequelize = require("./config/db");
+const Mentor = require("./models/Mentor")(sequelize); // ✅ Register the model
 
 const app = express();
 const PORT = 5000;
 
-// Middlewares
 app.use(cors());
 app.use(express.json());
 
-// Load Mentor model
-const Mentoret = MentorModel(sequelize);
+const mentorRoutes = require("./routes/mentorRoutes");
+app.use("/api/mentors", mentorRoutes); // or "/mentor"
 
-// Routes
-app.use("/api", mentorRoutes(Mentoret));
-
-// Sync DB and start server
-sequelize.sync()
+sequelize.sync({ alter: true }) // ✅ alter:true to update schema without dropping
   .then(() => {
     console.log("✅ Database synced");
-    app.listen(PORT, () => console.log(`🚀 Server running on http://localhost:${PORT}`));
+    app.listen(PORT, () =>
+      console.log(`🚀 Server running on http://localhost:${PORT}`)
+    );
   })
   .catch((err) => console.error("❌ DB connection error:", err));
