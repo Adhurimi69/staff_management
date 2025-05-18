@@ -1,6 +1,7 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import MentorPage from "./views/MentorPage";
+import VullnetarPage from "./views/VullnetarPage"; // ✅ Import VullnetarPage
 
 function App() {
   return (
@@ -9,11 +10,14 @@ function App() {
         <Link to="/mentors" style={{ marginRight: "1rem" }}>
           Mentors
         </Link>
-        {/* Add more links here if you want */}
+        <Link to="/vullnetare">
+          Vullnetarë
+        </Link>
       </nav>
+
       <Routes>
         <Route path="/mentors" element={<MentorPage />} />
-        {/* Add other routes here */}
+        <Route path="/vullnetare" element={<VullnetarPage />} /> {/* ✅ Add this */}
       </Routes>
     </Router>
   );
