@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import axios from "axios";
+import "../styles/Pages.css";
 
-const API_URL = "http://localhost:5000/api/vullnetare";
+const API_URL = "http://localhost:5000/api/vullnetars";
 
 const VullnetarPage = () => {
-  const [vullnetare, setVullnetare] = useState([]);
+  const [vullnetare, setVullnetars] = useState([]);
   const [formData, setFormData] = useState({
     emri: "",
     mbiemri: "",
@@ -16,12 +18,12 @@ const VullnetarPage = () => {
   const [editingId, setEditingId] = useState(null);
 
   useEffect(() => {
-    fetchVullnetare();
+    fetchVullnetars();
   }, []);
 
-  const fetchVullnetare = async () => {
+  const fetchVullnetars = async () => {
     const res = await axios.get(API_URL);
-    setVullnetare(res.data);
+    setVullnetars(res.data);
   };
 
   const handleChange = (e) => {
@@ -38,7 +40,7 @@ const VullnetarPage = () => {
       }
       setFormData({ emri: "", mbiemri: "", email: "", nrTel: "", qyteti: "", password: "" });
       setEditingId(null);
-      fetchVullnetare();
+      fetchVullnetars();
     } catch (err) {
       console.error(err.response?.data || err.message);
     }
@@ -51,69 +53,71 @@ const VullnetarPage = () => {
 
   const handleDelete = async (id) => {
     await axios.delete(`${API_URL}/${id}`);
-    fetchVullnetare();
+    fetchVullnetars();
   };
 
   return (
-    <div className="p-6 max-w-4xl mx-auto">
-      <h2 className="text-2xl font-bold mb-4">{editingId ? "Edit Vullnetar" : "Add Vullnetar"}</h2>
-      <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-4 mb-6">
-        <input name="emri" placeholder="Emri" value={formData.emri} onChange={handleChange} required />
-        <input name="mbiemri" placeholder="Mbiemri" value={formData.mbiemri} onChange={handleChange} required />
-        <input name="email" type="email" placeholder="Email" value={formData.email} onChange={handleChange} required />
-        <input name="nrTel" placeholder="Nr. Tel" value={formData.nrTel} onChange={handleChange} />
-        <input name="qyteti" placeholder="Qyteti" value={formData.qyteti} onChange={handleChange} />
-        <input
-          name="password"
-          type="password"
-          placeholder="Password"
-          value={formData.password}
-          onChange={handleChange}
-          required={!editingId}
-        />
-        <button type="submit" className="col-span-2 bg-blue-500 text-white py-2 rounded">
-          {editingId ? "Update" : "Create"}
-        </button>
-      </form>
+    <div className="container">
+      <div className="sidebar">
+        <img src="staff-logo.png" alt="Logo" className="logo-img" />
+        <h3 className="title">Staff</h3>
+        <nav>          
+          <Link to="/mentors">Mentorët</Link>
+          <Link to="/desiminators">Desiminatorët</Link>
+          <Link to="/vullnetare" className="active">Vullnetarët</Link>
+        </nav>
+      </div>
 
-      <h3 className="text-xl font-semibold mb-2">Vullnetarë List</h3>
-      <table className="w-full border-collapse border">
-        <thead>
-          <tr className="bg-gray-100">
-            <th className="border px-3 py-2">Emri</th>
-            <th className="border px-3 py-2">Mbiemri</th>
-            <th className="border px-3 py-2">Email</th>
-            <th className="border px-3 py-2">Nr. Tel</th>
-            <th className="border px-3 py-2">Qyteti</th>
-            <th className="border px-3 py-2">Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {vullnetare.map((vullnetar) => (
-            <tr key={vullnetar.id}>
-              <td className="border px-3 py-1">{vullnetar.emri}</td>
-              <td className="border px-3 py-1">{vullnetar.mbiemri}</td>
-              <td className="border px-3 py-1">{vullnetar.email}</td>
-              <td className="border px-3 py-1">{vullnetar.nrTel}</td>
-              <td className="border px-3 py-1">{vullnetar.qyteti}</td>
-              <td className="border px-3 py-1 space-x-2">
-                <button
-                  className="bg-yellow-400 px-2 py-1 rounded"
-                  onClick={() => handleEdit(vullnetar)}
-                >
-                  Edit
-                </button>
-                <button
-                  className="bg-red-500 text-white px-2 py-1 rounded"
-                  onClick={() => handleDelete(vullnetar.id)}
-                >
-                  Delete
-                </button>
-              </td>
+      <div className="main-content">
+        <h2>{editingId ? "Edit Vullnetar" : "Add Vullnetar"}</h2>
+        <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-4 mb-6">
+          <input name="emri" placeholder="Emri" value={formData.emri} onChange={handleChange} required />
+          <input name="mbiemri" placeholder="Mbiemri" value={formData.mbiemri} onChange={handleChange} required />
+          <input name="email" type="email" placeholder="Email" value={formData.email} onChange={handleChange} required />
+          <input name="nrTel" placeholder="Nr. Tel" value={formData.nrTel} onChange={handleChange} />
+          <input name="qyteti" placeholder="Qyteti" value={formData.qyteti} onChange={handleChange} />
+          <input
+            name="password"
+            type="password"
+            placeholder="Password"
+            value={formData.password}
+            onChange={handleChange}
+            required={!editingId}
+          />
+          <button type="submit" className="col-span-2">
+            {editingId ? "Update" : "Create"}
+          </button>
+        </form>
+
+        <h3 className="text-xl font-semibold mb-2">Vullnetarë List</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Emri</th>
+              <th>Mbiemri</th>
+              <th>Email</th>
+              <th>Nr. Tel</th>
+              <th>Qyteti</th>
+              <th>Actions</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {vullnetare.map((vullnetar) => (
+              <tr key={vullnetar.id}>
+                <td>{vullnetar.emri}</td>
+                <td>{vullnetar.mbiemri}</td>
+                <td>{vullnetar.email}</td>
+                <td>{vullnetar.nrTel}</td>
+                <td>{vullnetar.qyteti}</td>
+                <td>
+                  <button className="edit-btn" onClick={() => handleEdit(vullnetar)}>Edit</button>
+                  <button className="delete-btn" onClick={() => handleDelete(vullnetar.id)}>Delete</button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };

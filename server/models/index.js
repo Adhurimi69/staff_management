@@ -1,16 +1,24 @@
 const Sequelize = require("sequelize");
 const sequelize = require("../config/db");
 
+// Import models
 const MentorModel = require("./Mentor");
 const VullnetarModel = require("./Vullnetar");
+const DesiminatorModel = require("./Desiminator");
 
-const Mentor = MentorModel(sequelize); // Initialize model
-const Vullnetar = VullnetarModel(sequelize); // Initialize model
+// Initialize models with Sequelize instance
+const Mentor = MentorModel(sequelize);
+const Vullnetar = VullnetarModel(sequelize);
+const Desiminator = DesiminatorModel(sequelize);
 
-// Export initialized models
+// If you plan to define associations, do it here:
+// Mentor.hasMany(...), etc.
+
+// Export all models and sequelize instance
 module.exports = {
   sequelize,
   Sequelize,
   Mentor,
-  Vullnetar
+  Vullnetar,
+  Desiminator,
 };

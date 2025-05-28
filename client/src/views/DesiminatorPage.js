@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import axios from "axios";
+import "../styles/Pages.css";
 
-const API_URL = "http://localhost:5000/api/desiminators"; // Adjust base path if needed
+const API_URL = "http://localhost:5000/api/desiminators";
 
 const DesiminatorPage = () => {
   const [desiminators, setDesiminators] = useState([]);
@@ -62,67 +64,67 @@ const DesiminatorPage = () => {
   };
 
   return (
-    <div className="p-6 max-w-4xl mx-auto">
-      <h2 className="text-2xl font-bold mb-4">
-        {editingId ? "Edit Desiminator" : "Add Desiminator"}
-      </h2>
-      <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-4 mb-6">
-        <input name="emri" placeholder="Emri" value={formData.emri} onChange={handleChange} required />
-        <input name="mbiemri" placeholder="Mbiemri" value={formData.mbiemri} onChange={handleChange} required />
-        <input name="email" type="email" placeholder="Email" value={formData.email} onChange={handleChange} required />
-        <input name="nrTel" placeholder="Nr. Tel" value={formData.nrTel} onChange={handleChange} />
-        <input name="qyteti" placeholder="Qyteti" value={formData.qyteti} onChange={handleChange} />
-        <input
-          name="password"
-          type="password"
-          placeholder="Password"
-          value={formData.password}
-          onChange={handleChange}
-          required={!editingId}
-        />
-        <button type="submit" className="col-span-2 bg-blue-500 text-white py-2 rounded">
-          {editingId ? "Update" : "Create"}
-        </button>
-      </form>
+    <div className="container">
+      <div className="sidebar">
+        <img src="staff-logo.png" alt="Logo" className="logo-img" />
+        <h3 className="title">Staff</h3>
+        <nav>
+          <Link to="/mentors">Mentorët</Link>
+          <Link to="/desiminators" className="active">Desiminatorët</Link>
+          <Link to="/vullnetare">Vullnetarët</Link>
+        </nav>
+      </div>
 
-      <h3 className="text-xl font-semibold mb-2">Desiminators List</h3>
-      <table className="w-full border-collapse border">
-        <thead>
-          <tr className="bg-gray-100">
-            <th className="border px-3 py-2">Emri</th>
-            <th className="border px-3 py-2">Mbiemri</th>
-            <th className="border px-3 py-2">Email</th>
-            <th className="border px-3 py-2">Nr. Tel</th>
-            <th className="border px-3 py-2">Qyteti</th>
-            <th className="border px-3 py-2">Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {desiminators.map((desiminator) => (
-            <tr key={desiminator.id}>
-              <td className="border px-3 py-1">{desiminator.emri}</td>
-              <td className="border px-3 py-1">{desiminator.mbiemri}</td>
-              <td className="border px-3 py-1">{desiminator.email}</td>
-              <td className="border px-3 py-1">{desiminator.nrTel}</td>
-              <td className="border px-3 py-1">{desiminator.qyteti}</td>
-              <td className="border px-3 py-1 space-x-2">
-                <button
-                  className="bg-yellow-400 px-2 py-1 rounded"
-                  onClick={() => handleEdit(desiminator)}
-                >
-                  Edit
-                </button>
-                <button
-                  className="bg-red-500 text-white px-2 py-1 rounded"
-                  onClick={() => handleDelete(desiminator.id)}
-                >
-                  Delete
-                </button>
-              </td>
+      <div className="main-content">
+        <h2>{editingId ? "Edit Desiminator" : "Add Desiminator"}</h2>
+        <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-4 mb-6">
+          <input name="emri" placeholder="Emri" value={formData.emri} onChange={handleChange} required />
+          <input name="mbiemri" placeholder="Mbiemri" value={formData.mbiemri} onChange={handleChange} required />
+          <input name="email" type="email" placeholder="Email" value={formData.email} onChange={handleChange} required />
+          <input name="nrTel" placeholder="Nr. Tel" value={formData.nrTel} onChange={handleChange} />
+          <input name="qyteti" placeholder="Qyteti" value={formData.qyteti} onChange={handleChange} />
+          <input
+            name="password"
+            type="password"
+            placeholder="Password"
+            value={formData.password}
+            onChange={handleChange}
+            required={!editingId}
+          />
+          <button type="submit" className="col-span-2">
+            {editingId ? "Update" : "Create"}
+          </button>
+        </form>
+
+        <h3 className="text-xl font-semibold mb-2">Desiminators List</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Emri</th>
+              <th>Mbiemri</th>
+              <th>Email</th>
+              <th>Nr. Tel</th>
+              <th>Qyteti</th>
+              <th>Actions</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {desiminators.map((desiminator) => (
+              <tr key={desiminator.id}>
+                <td>{desiminator.emri}</td>
+                <td>{desiminator.mbiemri}</td>
+                <td>{desiminator.email}</td>
+                <td>{desiminator.nrTel}</td>
+                <td>{desiminator.qyteti}</td>
+                <td>
+                  <button className="edit-btn" onClick={() => handleEdit(desiminator)}>Edit</button>
+                  <button className="delete-btn" onClick={() => handleDelete(desiminator.id)}>Delete</button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };

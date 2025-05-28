@@ -15,8 +15,8 @@ const mentorRoutes = require("./routes/mentorRoutes");
 const vullnetarRoutes = require("./routes/vullnetarRoutes");
 const desiminatorRoutes = require("./routes/desiminatorRoutes");
 app.use("/api/mentors", mentorRoutes); // or "/mentor"
-app.use("/api/vullnetar", vullnetarRoutes); // or "/vullnetar"
-app.use("/api/desiminator", desiminatorRoutes); 
+app.use("/api/vullnetars", vullnetarRoutes); // or "/vullnetar"
+app.use("/api/desiminators", desiminatorRoutes); 
 
 
 sequelize.sync({ alter: true }) // ✅ alter:true to update schema without dropping
