@@ -58,6 +58,22 @@ const AllStaffPage = () => {
 
       <div className="main-content">
         <h2 className="text-2xl font-bold mb-4">Të Gjithë Anëtarët e Staff-it</h2>
+
+        <div className="mb-4">
+          <label htmlFor="roleFilter" className="mr-2 font-medium">Filtro sipas rolit:</label>
+          <select
+            id="roleFilter"
+            value={roleFilter}
+            onChange={handleFilterChange}
+            className="border p-1"
+          >
+            <option value="all">Të Gjithë</option>
+            <option value="Vullnetar">Vullnetar</option>
+            <option value="Mentor">Mentor</option>
+            <option value="Desiminator">Desiminator</option>
+          </select>
+        </div>
+
         <table className="w-full border border-collapse">
           <thead>
             <tr className="bg-gray-200">
