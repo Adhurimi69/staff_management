@@ -11,7 +11,7 @@ body {
 
 .sidebar {
   width: 200px;
-  background-color: #f8b700;
+  background-color: #a3d5ff; /* Lighter blue */
   color: #000;
   padding: 1rem;
 }
@@ -21,6 +21,37 @@ body {
   display: block;
 }
 
+/* Filter Container */
+.filter-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  align-items: center;
+}
+
+.filter-container label {
+  font-weight: 500;
+  margin-right: 0.5rem;
+  color: #333;
+}
+
+.filter-container select {
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background-color: #f9f9f9;
+  font-size: 1rem;
+  min-width: 160px;
+  transition: border 0.2s ease-in-out;
+}
+
+.filter-container select:focus {
+  border-color: #2563eb;
+  outline: none;
+  background-color: #fff;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.3);
+}
 
 .sidebar h3 {
   font-weight: bold;
@@ -59,6 +90,10 @@ h2 {
   margin-bottom: 1rem;
 }
 
+h3 {
+  color: #003366;
+}
+
 h3.title {
   margin-left: 80px;
 }
@@ -89,7 +124,7 @@ table {
 }
 
 th {
-  background-color: #f8b700;
+  background-color: #a3d5ff; /* Lighter blue */
   color: black;
   text-align: left;
   padding: 10px;
@@ -118,3 +153,92 @@ button.delete-btn {
   border-radius: 4px;
   cursor: pointer;
 }
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 30, 60, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background-color: #f0f4fc;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 0 15px rgba(0, 30, 60, 0.3);
+  text-align: center;
+  width: 90%;
+  max-width: 400px;
+}
+
+.modal-text {
+  margin-bottom: 20px;
+  font-size: 1.1rem;
+  color: #002d62;
+  font-weight: 500;
+}
+
+.modal-buttons {
+  display: flex;
+  justify-content: space-around;
+  gap: 10px;
+}
+
+.confirm-btn {
+  background-color: #0074cc;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.cancel-btn {
+  background-color: #ddd;
+  color: #333;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.confirm-btn:hover {
+  background-color: #005fa3;
+}
+
+.cancel-btn:hover {
+  background-color: #bbb;
+}
+
+.toast-error {
+  position: fixed;
+  top: 20px;
+  left: 40%;              /* Poziciono në mes horizontal */
+  transform: translateX(-50%); /* Lëviz popup-in 50% majtas për qendrim perfekt */
+  background-color: #c62828;
+  color: white;
+  padding: 12px 20px;
+  border-radius: 6px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  z-index: 10000;
+  animation: fadeInOut 4s forwards;
+  font-weight: 600;
+  max-width: 300px;
+  user-select: none;
+}
+
+
+@keyframes fadeInOut {
+  0% { opacity: 0; transform: translateY(-10px); }
+  10% { opacity: 1; transform: translateY(0); }
+  90% { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(-10px); }
+}
+
+

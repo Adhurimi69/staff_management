@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import "../styles/Pages.css"; // që të përdorim të njëjtat stile si faqet tjera
+import "../styles/Pages.css";
 
 const AllStaffPage = () => {
   const [staff, setStaff] = useState([]);
   const [filteredStaff, setFilteredStaff] = useState([]);
   const [roleFilter, setRoleFilter] = useState("all");
+  const [qytetiFilter, setQytetiFilter] = useState("all");
 
   useEffect(() => {
     const fetchAll = async () => {
@@ -32,46 +33,66 @@ const AllStaffPage = () => {
     fetchAll();
   }, []);
 
-  const handleFilterChange = (e) => {
-    const selectedRole = e.target.value;
-    setRoleFilter(selectedRole);
-    if (selectedRole === "all") {
-      setFilteredStaff(staff);
-    } else {
-      const filtered = staff.filter((person) => person.role === selectedRole);
-      setFilteredStaff(filtered);
+  useEffect(() => {
+    let filtered = staff;
+
+    if (roleFilter !== "all") {
+      filtered = filtered.filter((person) => person.role === roleFilter);
     }
-  };
+
+    if (qytetiFilter !== "all") {
+      filtered = filtered.filter((person) => person.qyteti === qytetiFilter);
+    }
+
+    setFilteredStaff(filtered);
+  }, [roleFilter, qytetiFilter, staff]);
+
+  const uniqueCities = [...new Set(staff.map((p) => p.qyteti).filter(Boolean))];
 
   return (
     <div className="container">
       <div className="sidebar">
-        <img src="/staff-logo.png" alt="Logo" className="logo-img" />
+        <img src="/blue_staff.png" alt="Logo" className="logo-img" />
         <h3 className="title">Staff</h3>
         <nav>
           <Link to="/staff" className="active">Staff</Link>
           <Link to="/mentors">Mentorët</Link>
           <Link to="/desiminators">Desiminatorët</Link>
-          <Link to="/vullnetare">Vullnetarët</Link>          
+          <Link to="/vullnetare">Vullnetarët</Link>
         </nav>
       </div>
 
       <div className="main-content">
         <h2 className="text-2xl font-bold mb-4">Të Gjithë Anëtarët e Staff-it</h2>
 
-        <div className="mb-4">
-          <label htmlFor="roleFilter" className="mr-2 font-medium">Filtro sipas rolit:</label>
-          <select
-            id="roleFilter"
-            value={roleFilter}
-            onChange={handleFilterChange}
-            className="border p-1"
-          >
-            <option value="all">Të Gjithë</option>
-            <option value="Vullnetar">Vullnetar</option>
-            <option value="Mentor">Mentor</option>
-            <option value="Desiminator">Desiminator</option>
-          </select>
+        <div className="filter-container">
+          <div>
+            <label htmlFor="roleFilter">Filtro sipas rolit:</label>
+            <select
+              id="roleFilter"
+              value={roleFilter}
+              onChange={(e) => setRoleFilter(e.target.value)}
+            >
+              <option value="all">Të Gjithë</option>
+              <option value="Vullnetar">Vullnetar</option>
+              <option value="Mentor">Mentor</option>
+              <option value="Desiminator">Desiminator</option>
+            </select>
+          </div>
+
+          <div>
+            <label htmlFor="qytetiFilter">Filtro sipas qytetit:</label>
+            <select
+              id="qytetiFilter"
+              value={qytetiFilter}
+              onChange={(e) => setQytetiFilter(e.target.value)}
+            >
+              <option value="all">Të Gjithë</option>
+              {uniqueCities.map((city, index) => (
+                <option key={index} value={city}>{city}</option>
+              ))}
+            </select>
+          </div>
         </div>
 
         <table className="w-full border border-collapse">
